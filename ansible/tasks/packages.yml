@@ -6,7 +6,6 @@
   apt: 'name={{item}} state=present force=yes'
   with_items:
     - wget
-    - unzip
     - build-essential
     - pkg-config
     - sudo
@@ -27,8 +26,4 @@
     - python-virtualenv
     - python-dev
     - libzmq3-dev
-    - libz-dev
-    - ncurses-dev
-    - ranger
-    - htop
-    - tree
+
