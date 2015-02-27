@@ -1,5 +1,5 @@
 import java.util.Properties
-import java.io.{ByteArrayOutputStream}
+import java.io.{ByteArrayOutputStream,StringWriter,PrintWriter}
 
 import scala.sys
 
@@ -49,16 +49,34 @@ object CoreNLPServer extends Application {
   def getParser(ann: String) = cache.getOrElseUpdate(ann, newParser(ann)
 )
   while (true) {
+
+   try {
     val json_text = receiver.recvStr()
     val json = Json.parse(json_text)
-    val annotators = (json \ "annotators").as[String]
-    val text = (json \ "text").as[String]
-    val parser = getParser(annotators)
-    val result = parser.getXML(text)
+    val annotators = json \ "annotators"
+    val text = json \ "text"
+    val parser = getParser(annotators.as[String])
+    val xml = parser.getXML(text.as[String])
+    successResponse(annotators, xml)
+   } catch {
+     case e: Exception => errorResponse(e)
+   }
+  }
+
+  def successResponse(annotators: JsValue, xml: String) {
     val resultJson: JsValue = JsObject(Seq(
-      "xml" -> JsString(result),
-      "annotators" -> JsString(annotators)
-    ))      
+      "xml" -> JsString(xml),
+      "annotators" -> annotators
+    ))
+    receiver.send(resultJson.toString())
+  }
+
+  def errorResponse(e: Exception) {
+    var sw = new StringWriter()
+    e.printStackTrace(new PrintWriter(sw))
+    val resultJson: JsValue = JsObject(Seq(
+      "error" -> JsString(sw.toString())
+    ))
     receiver.send(resultJson.toString())
   }
 }
