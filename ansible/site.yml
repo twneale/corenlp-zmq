@@ -4,12 +4,10 @@
     corenlp_name: 'stanford-corenlp-full-{{corenlp_version}}'
 
   tasks:
-    # - include: tasks/packages.yml tags=packages
-    # - include: tasks/python.yml tags=python
-    - name: app.create_user
-      user: name=corenlp home=/corenlp
-    - name: app.copy_code
-      copy: src=files/ dest=/corenlp owner=corenlp
+    - include: tasks/packages.yml tags=packages
+    - include: tasks/sbt.yml
+    - include: tasks/python.yml tags=python
+    - include: tasks/app.yml tags=app
     - include: tasks/jzmq.yml tags=jzmq
-    - include: tasks/app.yml tags=jzmq
+    - include: tasks/supervisor.yml tags=supervisor
 

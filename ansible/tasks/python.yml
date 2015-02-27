@@ -5,7 +5,6 @@
 - name: venv.init
   pip:
     name: '{{item}}'
-    executable: pip3.4
     virtualenv: /corenlp/virt
     virtualenv_command: virtualenv
   with_items:

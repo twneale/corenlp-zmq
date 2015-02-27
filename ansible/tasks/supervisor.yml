@@ -1,0 +1,8 @@
+- name: supervisor.config_supervisor
+  copy: src=supervisor dest=/etc
+- name: supervisor.nodaemon
+  ini_file:
+    dest: /etc/supervisor/supervisord.conf
+    section: supervisord
+    option: nodaemon
+    value: true

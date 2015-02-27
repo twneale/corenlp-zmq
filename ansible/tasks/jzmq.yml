@@ -10,8 +10,4 @@
   command: make chdir=/opt/jzmq
 - name: jzmq.make_install
   command: make install chdir=/opt/jzmq
-- name: jzmq.symlink
-  file:
-    src: /opt/jzmq/src/main/c++/zmq.jar
-    dest: /corenlp/scala/lib
-    state: link
+- file: path=/opt/jzmq mode=0755 recurse=yes

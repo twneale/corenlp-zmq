@@ -1,2 +1,7 @@
-- name: app.config_supervisor
-  copy: src=supervisor/ dest=/etc
+- name: app.create_user
+  user: name=corenlp home=/corenlp
+- file: path=/corenlp owner=corenlp recurse=yes
+- name: app.copy_code
+  copy: src=files/ dest=/corenlp owner=corenlp
+- name: app.create_log_dir
+  file: path=/corenlp/log state=directory
