@@ -11,17 +11,13 @@ import edu.stanford.nlp.ling.CoreAnnotations.SentencesAnnotation
 
 import org.zeromq.ZMQ
 import org.zeromq.ZMQ.{Context,Socket}
+
 import play.api.libs.json._
 
 
-class Parser() {
+class Parser(annotators: String) {
   var props = new Properties
-
-  val default_annotators = "tokenize,ssplit,pos,lemma,parse"
-  val annotators = scala.sys.env.getOrElse(
-    "CORENLP_ANNOTATORS", default_annotators)
   props.setProperty("annotators", annotators)
-
   println("Loading CoreNLP annotators: " + annotators)
   println("Loading CoreNLP...")
   var pipeline = new StanfordCoreNLP(props)
@@ -48,12 +44,17 @@ object CoreNLPServer extends Application {
   receiver.connect(broker_string)
   println("Serving....")
 
-  //var parser = new Parser;
+  val cache = collection.mutable.Map[String, Parser]()
+  def newParser(annotators: String) = new Parser(annotators)
+  def getParser(ann: String) = cache.getOrElseUpdate(ann, newParser(ann)
+)
   while (true) {
-    val text = receiver.recvStr()
-    val json = Json.parse(text)
-    println(json)
-    //val result = parser.getXML(text)
-    receiver.send("{}")
+    val json_text = receiver.recvStr()
+    val json = Json.parse(json_text)
+    val annotators = (json \ "annotators").as[String]
+    val text = (json \ "text").as[String]
+    val parser = getParser(annotators)
+    val result = parser.getXML(text)
+    receiver.send(result)
   }
 }
