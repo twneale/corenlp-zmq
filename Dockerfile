@@ -10,6 +10,6 @@ WORKDIR /ansible
 # Run Ansible to configure the Docker image
 # RUN ansible-playbook site.yml --connection local
 
-# EXPOSE 5559
+EXPOSE 5559
 CMD "/bin/bash"
-# CMD "/usr/lib/supervisord -c /etc/supervisor/supervisord.conf"
+CMD "/usr/lib/supervisord -c /etc/supervisor/supervisord.conf"
