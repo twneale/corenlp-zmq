@@ -55,6 +55,10 @@ object CoreNLPServer extends Application {
     val text = (json \ "text").as[String]
     val parser = getParser(annotators)
     val result = parser.getXML(text)
-    receiver.send(result)
+    val resultJson: JsValue = JsObject(Seq(
+      "xml" -> JsString(result),
+      "annotators" -> JsString(annotators)
+    ))      
+    receiver.send(resultJson.toString())
   }
 }
