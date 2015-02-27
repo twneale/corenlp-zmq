@@ -1,8 +1,12 @@
+- file:
+    path: dest: /etc/apt/sources.list.d/dl_bintray_com_sbt_debian.list
+    state: touch
+    mode: 0644
 - name: sbt.add_repo
   lineinfile:
     dest: /etc/apt/sources.list.d/dl_bintray_com_sbt_debian.list
     line: deb http://dl.bintray.com/sbt/debian /
-    mode: 644
+    mode: 0644
 - name: packages.update
   apt: update_cache=yes
 - name: packages.install
