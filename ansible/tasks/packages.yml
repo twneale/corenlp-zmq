@@ -1,0 +1,30 @@
+- name: packages.update
+  apt: update_cache=yes
+- name: packages.install
+  apt: 'name={{item}} state=present'
+  with_items:
+    - wget
+    - unzip
+    - build-essential
+    - pkg-config
+    - sudo
+    - make
+    - libtool
+    - autoconf
+    - automake
+    - git-core
+    - default-jre
+    - default-jdk
+    - scala
+    - supervisor
+    - python3.4
+    - python3.4-dev
+    - python-setuptools
+    - python-virtualenv
+    - python-dev
+    - libzmq3-dev
+    - libz-dev
+    - ncurses-dev
+    - ranger
+    - htop
+    - tree

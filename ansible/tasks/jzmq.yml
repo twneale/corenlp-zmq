@@ -1,0 +1,17 @@
+- name: jzmq.clone
+  git:
+    repo: https://github.com/zeromq/jzmq.git
+    dest: /opt/jzmq
+- name: jzmq.autogen
+  command: ./autogen.sh chdir=/opt/jzmq
+- name: jzmq.configure
+  command: ./configure chdir=/opt/jzmq
+- name: jzmq.make
+  command: make chdir=/opt/jzmq
+- name: jzmq.make_install
+  command: make install chdir=/opt/jzmq
+- name: jzmq.symlink
+  file:
+    src: /opt/jzmq/src/main/c++/zmq.jar
+    dest: /corenlp/scala/jars/
+    state: link

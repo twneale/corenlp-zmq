@@ -1,0 +1,13 @@
+- name: pip.fetch
+  command: wget https://bootstrap.pypa.io/get-pip.py chdir=/tmp
+- name: pip.install
+  command: python3.4 get-pip.py chdir=/tmp
+- name: venv.init
+  pip:
+    name: '{{item}}'
+    executable: pip3.4
+    virtualenv: /corenlp/virt
+    virtualenv_command: virtualenv
+  with_items:
+    - pyzmq
+    - click

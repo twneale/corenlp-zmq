@@ -2,82 +2,10 @@
   vars:
     corenlp_version: 2015-01-29
     corenlp_name: 'stanford-corenlp-full-{{corenlp_version}}'
+
   tasks:
-    # - apt: update_cache=yes
-    # - name: install packages
-    #   apt: 'name={{item}} state=present'
-    #   with_items:
-    #     - wget
-    #     - unzip
-    #     - build-essential
-    #     - pkg-config
-    #     - sudo
-    #     - make
-    #     - libtool
-    #     - autoconf
-    #     - automake
-    #     - git-core
-    #     - default-jre
-    #     - default-jdk
-    #     - scala
-    #     - supervisor
-    #     - python3.4
-    #     - python3.4-dev
-    #     - python-setuptools
-    #     - python-virtualenv
-    #     - python-dev
-    #     - libzmq3-dev
-    #     - libz-dev
-    #     - ncurses-dev
-    #     - ranger
-    #     - htop
-    #     - tree
+    - include: tasks/packages.yml tags=packages
+    - include: tasks/python.yml tags=python
+    - include: tasks/jzmq.yml tags=jzmq
+    - include: tasks/app.yml tags=jzmq
 
-    # - name: Create corenlp user
-    #   user: name=corenlp home=/corenlp
-
-    # - name: Get pip
-    #   command: wget https://bootstrap.pypa.io/get-pip.py chdir=/tmp
-    # - name: Install pip
-    #   command: python3.4 get-pip.py chdir=/tmp
-
-    # - name: Setup virtualenv
-    #   pip:
-    #     name: '{{item}}'
-    #     executable: pip3.4
-    #     virtualenv: /corenlp/virt
-    #     virtualenv_command: virtualenv
-    #   with_items:
-    #     - pyzmq
-    #     - click
-
-    # # Install corenlp
-    # - file: path=/opt state=directory
-    # # - command: 'wget http://nlp.stanford.edu/software/{{corenlp_name}}.zip chdir=/opt'
-    # - unarchive: 'src=/opt/{{corenlp_name}}.zip dest=/opt'
-
-    # # Install jzmq
-    # - git:
-    #     repo: https://github.com/zeromq/jzmq.git
-    #     dest: /opt/jzmq
-    # - command: ./autogen.sh chdir=/opt/jzmq
-    # - command: ./configure chdir=/opt/jzmq
-    # - command: make chdir=/opt/jzmq
-    # - command: make install chdir=/opt/jzmq
-
-    # # Copy over the code.supervisor
-    - copy: src=files/scala dest=/corenlp
-    - copy: src=files/python dest=/opt
-
-    # Set some symlinks
-    # - file: path=/corenlp/scala/jars state=directory
-    # - command: 'ln -s /opt/{{corenlp_name}}/*.jar jars chdir=/corenlp/scala/'
-    # - file: 'src=/opt/jzmq/src/main/c++/zmq.jar dest=/corenlp/scala/jars/ state=link'
-
-    # Build
-    - command: scalac -cp .:jars/* -Djava.library.path=/usr/local/lib CoreNLPServer.scala chdir=/corenlp/scala
-    - file: path=/corenlp/log state=directory
-
-    - file: path=/corenlp user=corenlp recurse=yes
-
-    - copy: src=supervisor dest=/etc
