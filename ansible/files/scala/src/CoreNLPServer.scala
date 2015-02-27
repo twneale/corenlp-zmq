@@ -11,6 +11,7 @@ import edu.stanford.nlp.ling.CoreAnnotations.SentencesAnnotation
 
 import org.zeromq.ZMQ
 import org.zeromq.ZMQ.{Context,Socket}
+import play.api.libs.json._
 
 
 class Parser() {
@@ -47,10 +48,12 @@ object CoreNLPServer extends Application {
   receiver.connect(broker_string)
   println("Serving....")
 
-  var parser = new Parser;
+  //var parser = new Parser;
   while (true) {
     val text = receiver.recvStr()
-    val result = parser.getXML(text)
-    receiver.send(result)
+    val json = Json.parse(text)
+    println(json)
+    //val result = parser.getXML(text)
+    receiver.send("{}")
   }
 }
