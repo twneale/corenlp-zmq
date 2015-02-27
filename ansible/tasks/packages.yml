@@ -1,5 +1,5 @@
-- name: packages.update
-  apt: update_cache=yes
+# - name: packages.update
+#   apt: update_cache=yes
 - name: packages.install
   apt: 'name={{item}} state=present'
   with_items:
