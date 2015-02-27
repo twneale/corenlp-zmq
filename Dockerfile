@@ -2,6 +2,7 @@ FROM ansible/ubuntu14.04-ansible:stable
 MAINTAINER twneale@gmail.com
 
 ENV DEBIAN_FRONTEND noninteractive
+ENV LD_LIBRARY_PATH /usr/local/lib
 
 # Add playbooks to the Docker image
 ADD ansible /ansible/
