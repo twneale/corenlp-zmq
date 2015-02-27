@@ -1,5 +1,5 @@
 import java.util.Properties
-import java.io.{ByteArrayOutputStream}
+import java.io.{ByteArrayOutputStream,StringWriter,PrintWriter}
 
 import scala.sys
 
@@ -12,15 +12,12 @@ import edu.stanford.nlp.ling.CoreAnnotations.SentencesAnnotation
 import org.zeromq.ZMQ
 import org.zeromq.ZMQ.{Context,Socket}
 
+import play.api.libs.json._
 
-class Parser() {
+
+class Parser(annotators: String) {
   var props = new Properties
-
-  val default_annotators = "tokenize,ssplit,pos,lemma,parse"
-  val annotators = scala.sys.env.getOrElse(
-    "CORENLP_ANNOTATORS", default_annotators)
   props.setProperty("annotators", annotators)
-
   println("Loading CoreNLP annotators: " + annotators)
   println("Loading CoreNLP...")
   var pipeline = new StanfordCoreNLP(props)
@@ -47,10 +44,39 @@ object CoreNLPServer extends Application {
   receiver.connect(broker_string)
   println("Serving....")
 
-  var parser = new Parser;
+  val cache = collection.mutable.Map[String, Parser]()
+  def newParser(annotators: String) = new Parser(annotators)
+  def getParser(ann: String) = cache.getOrElseUpdate(ann, newParser(ann)
+)
   while (true) {
-    val text = receiver.recvStr()
-    val result = parser.getXML(text)
-    receiver.send(result)
+
+   try {
+    val json_text = receiver.recvStr()
+    val json = Json.parse(json_text)
+    val annotators = json \ "annotators"
+    val text = json \ "text"
+    val parser = getParser(annotators.as[String])
+    val xml = parser.getXML(text.as[String])
+    successResponse(annotators, xml)
+   } catch {
+     case e: Exception => errorResponse(e)
+   }
+  }
+
+  def successResponse(annotators: JsValue, xml: String) {
+    val resultJson: JsValue = JsObject(Seq(
+      "xml" -> JsString(xml),
+      "annotators" -> annotators
+    ))
+    receiver.send(resultJson.toString())
+  }
+
+  def errorResponse(e: Exception) {
+    var sw = new StringWriter()
+    e.printStackTrace(new PrintWriter(sw))
+    val resultJson: JsValue = JsObject(Seq(
+      "error" -> JsString(sw.toString())
+    ))
+    receiver.send(resultJson.toString())
   }
 }
