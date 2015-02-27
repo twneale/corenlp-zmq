@@ -1,5 +1,5 @@
 - file:
-    path: dest: /etc/apt/sources.list.d/dl_bintray_com_sbt_debian.list
+    path: /etc/apt/sources.list.d/dl_bintray_com_sbt_debian.list
     state: touch
     mode: 0644
 - name: sbt.add_repo
