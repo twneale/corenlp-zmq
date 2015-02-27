@@ -13,5 +13,5 @@
 - name: jzmq.symlink
   file:
     src: /opt/jzmq/src/main/c++/zmq.jar
-    dest: /corenlp/scala/jars/
+    dest: /corenlp/scala/lib
     state: link

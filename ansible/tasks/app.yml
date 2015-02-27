@@ -1,6 +1,2 @@
-- name: app.create_user
-  user: name=corenlp home=/corenlp
-- name: app.copy_code
-  copy: src=files/ dest=/corenlp owner=corenlp
 - name: app.config_supervisor
   copy: src=supervisor/ dest=/etc
