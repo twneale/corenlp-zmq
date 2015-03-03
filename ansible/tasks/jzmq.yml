@@ -2,6 +2,7 @@
   git:
     repo: https://github.com/zeromq/jzmq.git
     dest: /opt/jzmq
+    version: v2.2.2
 - name: jzmq.autogen
   command: ./autogen.sh chdir=/opt/jzmq
 - name: jzmq.configure
