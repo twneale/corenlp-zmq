@@ -7,5 +7,5 @@
     - include: tasks/packages.yml tags=packages
     - include: tasks/python.yml tags=python
     - include: tasks/app.yml tags=app
-    - include: tasks/jzmq.yml tags=jzmq
+    # - include: tasks/jzmq.yml tags=jzmq
 
