@@ -1,7 +1,5 @@
-- name: app.create_user
-  user: name=corenlp home=/corenlp
-- file: path=/corenlp owner=corenlp recurse=yes
+- file: path=/corenlp
 - name: app.copy_code
-  copy: src=files/ dest=/corenlp owner=corenlp
+  copy: src=files/ dest=/corenlp
 - name: app.create_log_dir
   file: path=/corenlp/log state=directory
