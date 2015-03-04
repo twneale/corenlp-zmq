@@ -4,7 +4,7 @@ MAINTAINER twneale@gmail.com
 ENV DEBIAN_FRONTEND noninteractive
 ENV LD_LIBRARY_PATH /usr/local/lib
 ENV CORENLP_BROKER_HOST broker
-ENV CLASSPATH=.:/usr/local/share/java/
+ENV CLASSPATH .:/usr/local/share/java/
 
 # Add playbooks to the Docker image
 ADD ansible /ansible/
