@@ -1,5 +1,5 @@
 - file: path=/corenlp
 - name: app.copy_code
   copy: src=files/ dest=/corenlp
-- name: app.create_log_dir
-  file: path=/corenlp/log state=directory
+# - name: app.create_log_dir
+#   file: path=/corenlp/log state=directory
