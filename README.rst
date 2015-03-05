@@ -25,17 +25,18 @@ Next, start a supervisor process with the config file provided in the repo:
 
     .. code-block:: shell
 
-        # To start a sueprvisor process in the foreground:
+        # To start a sueprvisor process in the foreground:>_
         supervisord -n -c supervisor/supervisor.conf
         
         # To start a supervisor daemon in the background:
         supervisord -c supervisor/supervisor.conf
 
 That's it! You can now send JSON requests of the form show below to port 5559 via on the host OS and 
-recieve the CoreNLP output XML, or a Java traceback if an error occurs. Note that the Scala server first has
-to boostrap itself, which can take several minutes before it will respond to requests. If you want to skip
-that process next time, you can run "docker ps" to get the container id, that "docker commit [id]" to save
-the container once the boostrapping in finished.
+recieve the CoreNLP output XML, or a Java traceback if an error occurs. Note that the Scala server's 
+`sbt build <http://www.scala-sbt.org/>`_ first has to boostrap itself and download several jar files,
+including the huge CoreNLP jar, so several minutes will pass before the server starts and can 
+respond to requests. If you want to skip that process next time, you can run "docker ps" to get 
+the container id, then "docker commit [id]" to save the container once the boostrapping in finished.
 
   .. code-block: javascript
   
