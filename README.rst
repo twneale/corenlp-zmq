@@ -21,8 +21,7 @@ First, clone the repo and build the docker container:
         docker build -t corenlp .
 
 Next, install `Supervisord <http://supervisord.org/>`_ if not already present on your system. On Debian/Ubuntu,
-you can apt-get install supervisor, and on RHEL/Centos you can yum install python-setuptool, then 
-pip install supervisor.
+you can ``apt-get install supervisor``, and on RHEL/Centos you can ``yum install python-setuptools``, then ``easy_install supervisor``.
 
 Next, start a supervisor process with the config file provided in the repo:
 
