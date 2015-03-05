@@ -69,13 +69,13 @@ and runs the provided text through it, returning the response as a JSON object.
     
       docker run -i -t --link broker:broker corenlp /bin/bash -c 'cd /corenlp/scala && sbt run'
 
-You can also simply run these manually without Supervisor to test things out. 
+You can also run these commands manually  in the shell without to test things out with involving Supervisor. 
 
 Trying it Out
 +++++++++++++
 
 To send some text through the server, you can run the example Python client script, provided you 
-have ZMQ, ZMQ-dev, and pyzmq installed:
+have ZeroMQ, the ZeroMQ dev headers, and pyzmq installed:
 
     .. code-block:: python
 
