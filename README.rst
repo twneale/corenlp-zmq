@@ -2,7 +2,10 @@ corenlp-zmq
 ===========
 
 This repo provides a Dockerfile and `Ansible <https://github.com/ansible/ansible>`_ provisioning 
-script to build and run a `Stanford CoreNLP <http://nlp.stanford.edu/software/corenlp.shtml>`_ server process.
+script to build and run a `Stanford CoreNLP <http://nlp.stanford.edu/software/corenlp.shtml>`_ server process with a single
+ZMQ broker font-end that proxies incoming requests to one or more back-end Scala workers. This setup is designed to parallelize and
+scale reasonably well, though at a certain point there's a question whether batch-processing large documents by transmitting 
+them over the network makes much sense.
 
 Running the Server
 ++++++++++++++++++
@@ -34,7 +37,7 @@ Next, start a supervisor process with the config file provided in the repo:
         # To start a supervisor daemon in the background:
         supervisord -c supervisor/supervisor.conf
 
-That's it! You can now send JSON requests of the form show below to port 5559 via on the host OS and 
+That's it! You can now send JSON requests of the form shown below to port 5559 via on the host OS and 
 recieve the CoreNLP output XML, or a Java traceback if an error occurs. Note that the Scala server's 
 `sbt build <http://www.scala-sbt.org/>`_ first has to boostrap itself and download several jar files,
 including the huge CoreNLP jar, so several minutes will pass before the server starts and can 
@@ -58,7 +61,7 @@ connected worker processes.
 
 
 The second starts one or more Scala worker processes, each of which loads the Core NLP
-java jar and registeres itself with the Python request broker. On recieving a request, the Scala process
+java jar and registers itself with the Python request broker. On recieving a request, the Scala process
 builds an appropriate edu.stanford.nlp.pipeline.StanfordCoreNLP object (and caches it, because they're expensive)
 and runs the provided text through it, returning the response as a JSON object.
         
@@ -102,6 +105,6 @@ Scaling Up
 
 To increase the number of Scala worker processes, simply edit the "numprocs" setting in supervisor/conf.d/worker.conf,
 then restart the process with supervisor. This setup provides a bonafide parallelized CoreNLP processing tool, unlike
-other packages available, which may, for example, provide an HTTP interface to a single subprocess that communicates
-with CoreNLP via the shell. In contrast, this package enables you to scale up the number of workers as needed,
-and could easily be upgraded to a cluster by placing several servers behind nginx, or another tier of ZMQ broker/proxy.
+other packages available, which may, for example, provide a networked interface to a single subprocess that communicates
+with CoreNLP via the shell. This package enables you to scale up the number of workers as needed,
+and could easily be upgraded to a cluster, by placing pointing Scala workers on different hosts to the same python frontent.
