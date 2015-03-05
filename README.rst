@@ -25,6 +25,9 @@ Next, start a supervisor process with the config file provided in the repo:
 
     .. code-block:: shell
 
+        # Create a log directory:
+        mkdir log
+
         # To start a sueprvisor process in the foreground:>_
         supervisord -n -c supervisor/supervisor.conf
         
