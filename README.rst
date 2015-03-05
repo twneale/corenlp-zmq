@@ -25,10 +25,10 @@ Next, start a supervisor process with the config file provided in the repo:
 
     .. code-block:: shell
 
-        # Create a log directory:
+        # First create a log directory
         mkdir log
 
-        # To start a sueprvisor process in the foreground:>_
+        # To start a supervisor process in the foreground:
         supervisord -n -c supervisor/supervisor.conf
         
         # To start a supervisor daemon in the background:
