@@ -16,5 +16,5 @@
 - name: jzmq.jar.symlink
   file:
     src: /usr/local/share/java/zmq.jar
-    dest: /corenlp/scala/lib/
+    dest: /corenlp/scala/lib/zmq.jar
     state: link
