@@ -11,6 +11,8 @@
   command: make chdir=/opt/jzmq
 - name: jzmq.make_install
   command: make install chdir=/opt/jzmq
+- name: sbt.lib.create
+  file: path=/corenlp/scala/lib state=directory
 - name: jzmq.jar.symlink
   file:
     src: /usr/local/share/java/zmq.jar
