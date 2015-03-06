@@ -10,11 +10,11 @@ def cli():
 
 
 @cli.command(name='serve')
-@click.option('--frontend-host', default='*',
+@click.option('--frontend-host', default='0.0.0.0',
     help="Host to accept client requests from.")
 @click.option('--frontend-port', default='5559',
     help="Port to accept client requests on.")
-@click.option('--backend-host', default='*',
+@click.option('--backend-host', default='0.0.0.0',
     help="Host to forward client requests to.")
 @click.option('--backend-port', default='5560',
     help="Port to forward client requests on.")
