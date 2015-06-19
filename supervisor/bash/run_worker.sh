@@ -4,7 +4,7 @@
 function startup {
   # Run the container.
   echo "Starting worker $CORENLP_WORKER_CID_FILE"
-  docker run --link broker:broker --cidfile=$CORENLP_WORKER_CID_FILE -w /corenlp/scala corenlp sbt run
+  docker run --rm --link broker:broker --cidfile=$CORENLP_WORKER_CID_FILE -w /corenlp/scala corenlp sbt run
 }
 
 function shutdown {
