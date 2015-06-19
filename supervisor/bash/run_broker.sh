@@ -8,7 +8,7 @@ function startup {
     fi
     # Run the container.
     echo "Running the container."
-    docker run -p 5559:5559 --name=broker --cidfile=broker.cid corenlp /corenlp/virt/bin/python /corenlp/python/broker.py serve --frontend-port=5559 --backend-port=5560
+    docker run --rm -p 5559:5559 --name=broker --cidfile=broker.cid corenlp /corenlp/virt/bin/python /corenlp/python/broker.py serve --frontend-port=5559 --backend-port=5560
 }
 
 function shutdown {
